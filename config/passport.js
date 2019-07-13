@@ -1,7 +1,7 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const keys = require('./keys');
-const uri = (port != 5000) ? 'https://shielded-shore-26171.herokuapp.com/auth/google/callback' : 'http://localhost:5000/auth/google/callback';
+// const uri = (port != 5000) ? 'https://shielded-shore-26171.herokuapp.com/auth/google/callback' : 'http://localhost:5000/auth/google/callback';
  
 // Load User model
 const User = mongoose.model('users');
@@ -12,7 +12,7 @@ module.exports = function(passport){
         new GoogleStrategy({
             clientID: keys.googleClientID,
             clientSecret: keys.googleClientSecret,
-            callbackURL: uri,
+            callbackURL: '/auth/google/callback',
             proxy: true
         }, (accessToken, refreshToken, profile, done) => {
             // console.log(accessToken);
