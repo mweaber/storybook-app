@@ -39,7 +39,7 @@ module.exports = function(passport){
                     done(null, user);
                 } else {
                     // Create User
-                    new User(newUser)
+                    await new User(newUser)
                         .save()
                         .then(user => done(null, user));
                 }
