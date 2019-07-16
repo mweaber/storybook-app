@@ -5,11 +5,13 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const app = express();
 
 
-// Load User Models
+// Load Models
 require('./models/User');
+require('./models/Story');
 
 // Passport Config
 require('./config/passport')(passport);
@@ -44,6 +46,10 @@ app.use(session({
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Body-Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
