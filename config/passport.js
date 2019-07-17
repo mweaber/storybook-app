@@ -11,10 +11,11 @@ module.exports = function(passport){
         new GoogleStrategy({
             clientID: keys.googleClientID,
             clientSecret: keys.googleClientSecret,
-            callbackURL: '/auth/google/callback',
+            callbackURL: absoluteURI + '/auth/google/callback',
             proxy: true
         }, (accessToken, refreshToken, profile, done) => {
             // console.log(accessToken);
+            console.log(callbackURL);
             // console.log(profile);
             const userImage = profile.photos[0].value;
             const image = profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'));
