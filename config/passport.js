@@ -18,6 +18,7 @@ module.exports = function(passport){
             // console.log(accessToken);
             console.log(callbackURL);
             // console.log(profile);
+            console.log(callbackURL);
             const userImage = profile.photos[0].value;
             const image = profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'));
             // console.log(image);
