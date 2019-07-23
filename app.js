@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const app = express();
 
 
@@ -24,12 +25,20 @@ const stories = require('./routes/stories');
 // Load Keys
 const keys = require('./config/keys');
 
+// Handlebars Helpers
+const {
+    truncate,
+    formatDate,
+    stripTags,
+    select
+} = require('./helpers/hbs');
+
 // Map Global Promises
 mongoose.Promise = global.Promise
 
 // Connect Atlas MongoDB
-mongoose.connect(keys.mongoURI,{
-    useNewUrlParser: true  
+mongoose.connect(keys.mongoURI, {
+    useNewUrlParser: true
 })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
@@ -47,13 +56,22 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Method-Override Middleware
+app.use(methodOverride('_method'));
+
 // Body-Parser Middleware
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
-    defaultLayout:'main'
+    helpers: {
+        truncate: truncate,
+        stripTags: stripTags,
+        formatDate: formatDate,
+        select: select
+    },
+    defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
